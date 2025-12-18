@@ -13,10 +13,8 @@ import com.example.questapi.uicontroller.route.DestinasiHome
 import com.example.questapi.view.EntrySiswaScreen
 import com.example.questapi.view.HomeScreen
 
-
 @Composable
-fun DataSiswaApp(
-    navController: NavHostController = rememberNavController(),
+fun DataSiswaApp( navController: NavHostController = rememberNavController(),
     modifier: Modifier) {
     HostNavigasi(navController = navController)
 }
@@ -29,8 +27,7 @@ fun HostNavigasi(
         modifier = Modifier) {
         composable(DestinasiHome.route) {
             HomeScreen(
-                navigateToItemEntry = {
-                    navController.navigate(DestinasiEntry.route) },
+                navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
                 navigateToItemUpdate = {
           //          navController.navigate("${DestinasiDetail.route}/${it}")
                 })

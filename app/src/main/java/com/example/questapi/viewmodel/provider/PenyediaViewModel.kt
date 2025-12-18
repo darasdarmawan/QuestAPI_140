@@ -8,15 +8,13 @@ import com.example.questapi.repositori.AplikasiDataSiswa
 import com.example.questapi.viewmodel.EntryViewModel
 import com.example.questapi.viewmodel.HomeViewModel
 
-fun CreationExtras.aplikasiDataSiswa(): AplikasiDataSiswa = (
+fun CreationExtras.aplikasiDataSiswa():AplikasiDataSiswa = (
         this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
-            AplikasiDataSiswa
+                AplikasiDataSiswa
         )
 object PenyediaViewModel {
     val Factory = viewModelFactory {
-        initializer { HomeViewModel (aplikasiDataSiswa().container
-            .repositoryDataSiswa) }
-        initializer { EntryViewModel (aplikasiDataSiswa().container
-            .repositoryDataSiswa) }
+        initializer { HomeViewModel(aplikasiDataSiswa().container.repositoryDataSiswa) }
+        initializer { EntryViewModel(aplikasiDataSiswa().container.repositoryDataSiswa) }
     }
 }

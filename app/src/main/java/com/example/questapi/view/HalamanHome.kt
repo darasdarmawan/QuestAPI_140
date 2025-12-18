@@ -38,21 +38,20 @@ import com.example.questapi.R
 import com.example.questapi.modeldata.DataSiswa
 import com.example.questapi.uicontroller.route.DestinasiHome
 import com.example.questapi.viewmodel.HomeViewModel
-import com.example.questapi.viewmodel.StatusUiSiswa
 import com.example.questapi.viewmodel.provider.PenyediaViewModel
+import com.example.questapi.viewmodel.StatusUiSiswa
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    // edit 1.1 : tambahkan parameter navigateToItemEntry
+    //edit 1.1 : tambahkan parameter navigateToItemEntry
     navigateToItemEntry: () -> Unit,
-    // edit 2.2 : tambahkan parameter navigateToItemUpdate
+    //edit 2.4 : tambahkan parameter navigateToItemUpdate
     navigateToItemUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -64,19 +63,17 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                // edit 1.2 : event onClick
+                //edit 1.2 : event onClick
                 onClick = navigateToItemEntry,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(
-                    dimensionResource(id = R.dimen.padding_large)
-                )
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = stringResource(R.string.entry_siswa)
                 )
             }
-        }
+        },
     ) { innerPadding ->
         HomeBody(
             statusUiSiswa = viewModel.listSiswa,
@@ -84,7 +81,7 @@ fun HomeScreen(
             retryAction = viewModel::loadSiswa,
             modifier = modifier
                 .padding(innerPadding)
-                .fillMaxWidth()
+                .fillMaxSize()
         )
     }
 }
@@ -92,7 +89,7 @@ fun HomeScreen(
 @Composable
 fun HomeBody(
     statusUiSiswa: StatusUiSiswa,
-    // edit 2.3 tambahkan parameter onSiswaClick
+    //edit 2.3 tambahkan parameter onSiswaClick
     onSiswaClick: (Int) -> Unit,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier
@@ -103,16 +100,14 @@ fun HomeBody(
     ) {
         when (statusUiSiswa) {
             is StatusUiSiswa.Loading -> LoadingScreen()
-
-            // edit 2.5 : tambahkan event onSiswaClick
+            //edit 2.5 : tambahkan event onSiswaClick
             is StatusUiSiswa.Success -> DaftarSiswa(
                 itemSiswa = statusUiSiswa.siswa,
                 onSiswaClick = { onSiswaClick(it.id) }
             )
-
             is StatusUiSiswa.Error -> ErrorScreen(
                 retryAction,
-                modifier = modifier.fillMaxWidth()
+                modifier = modifier.fillMaxSize()
             )
         }
     }
@@ -128,10 +123,7 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ErrorScreen(
-    retryAction: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -150,17 +142,17 @@ fun ErrorScreen(
 @Composable
 fun DaftarSiswa(
     itemSiswa: List<DataSiswa>,
-    // edit 2.1 : tambahkan parameter onSiswaClick
+    //edit 2.1 : tambahkan parameter onSiswaClick
     onSiswaClick: (DataSiswa) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = Modifier) {
         items(items = itemSiswa, key = { it.id }) { person ->
             ItemSiswa(
                 siswa = person,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
-                    // edit 2.2 jadikan itemsiswa menjadi clickable()
+                    //edit 2.2 jadikan itemsiswa menjadi clickable
                     .clickable { onSiswaClick(person) }
             )
         }
@@ -177,34 +169,29 @@ fun ItemSiswa(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
-            modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_large))
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.padding_small)
-            )
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = siswa.nama,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
                 )
                 Spacer(Modifier.weight(1f))
                 Icon(
                     imageVector = Icons.Default.Phone,
-                    contentDescription = null
+                    contentDescription = null,
+                )
+                Text(
+                    text = siswa.telpon,
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
             Text(
-                text = siswa.telpon,
-                style = MaterialTheme.typography.titleLarge
-            )
-            Text(
                 text = siswa.alamat,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }

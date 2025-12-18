@@ -9,17 +9,20 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
-interface ContainerApp{
-    val repositoryDataSiswa: RepositoryDataSiswa
+interface ContainerApp {
+    val repositoryDataSiswa : RepositoryDataSiswa
 }
+
 class DefaultContainerApp : ContainerApp {
-    private val baseurl = "http://10.0.2.2:/umyTI/" //laragon
+    private val baseurl = "http://10.0.2.2/umyTI/" // laragon
+
     val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
     val klien = OkHttpClient.Builder()
         .addInterceptor(logging)
         .build()
+
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(baseurl)
         .addConverterFactory(
@@ -31,9 +34,11 @@ class DefaultContainerApp : ContainerApp {
         )
         .client(klien)
         .build()
-    private val retrofitService: ServiceApiSiswa by lazy {
+
+    private val retrofitService : ServiceApiSiswa by lazy {
         retrofit.create(ServiceApiSiswa::class.java)
     }
+
     override val repositoryDataSiswa: RepositoryDataSiswa by lazy {
         JaringanRepositoryDataSiswa(retrofitService)
     }
