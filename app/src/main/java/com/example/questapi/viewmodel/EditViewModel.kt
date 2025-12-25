@@ -15,14 +15,14 @@ import com.example.questapi.uicontroller.route.DestinasiDetail
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class EditViewModel (savedStateHandle: SavedStateHandle, private val respositoryDataSiswa:
+class EditViewModel (savedStateHandle: SavedStateHandle, private val repositoryDataSiswa:
 RepositoryDataSiswa): ViewModel() {
     var uiStateSiswa by mutableStateOf(UIStateSiswa())
         private set
     private val idSiswa: Int = checkNotNull(savedStateHandle[DestinasiDetail.itemIdArg])
     init{
         viewModelScope.launch {
-            uiStateSiswa = respositoryDataSiswa.getSatuSiswa(idSiswa)
+            uiStateSiswa = repositoryDataSiswa.getSatuSiswa(idSiswa)
                 .toUiStateSiswa(true)
         }
     }
@@ -37,7 +37,7 @@ RepositoryDataSiswa): ViewModel() {
     }
     suspend fun editSatuSiswa(){
         if (validasiInput(uiStateSiswa.detailSiswa)){
-            val call: Response<Void> = respositoryDataSiswa.editSatuSiswa(idSiswa, uiStateSiswa
+            val call: Response<Void> = repositoryDataSiswa.editSatuSiswa(idSiswa, uiStateSiswa
                 .detailSiswa.toDataSiswa())
             if (call.isSuccessful){
                 println("Update Sukses : ${call.message()}")
