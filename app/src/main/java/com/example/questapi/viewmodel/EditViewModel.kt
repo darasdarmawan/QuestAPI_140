@@ -8,6 +8,7 @@ import com.example.questapi.modeldata.DetailSiswa
 import com.example.questapi.modeldata.UIStateSiswa
 import com.example.questapi.repositori.RepositoryDataSiswa
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class EditViewModel (savedStateHandle: SavedStateHandle, private val respositoryDataSiswa:
 RepositoryDataSiswa): ViewModel() {
@@ -27,6 +28,17 @@ RepositoryDataSiswa): ViewModel() {
     private fun validasiInput(uiState: DetailSiswa = uiStateSiswa.detailSiswa): Boolean {
         return with(uiState){
             nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
+        }
+    }
+    suspend fun editSatuSiswa(){
+        if (validasiInput(uiStateSiswa.detailSiswa)){
+            val call: Response<Void> = respositoryDataSiswa.editSatuSiswa(idSiswa, uiStateSiswa
+                .detailSiswa.toDataSiswa())
+            if (call.isSuccessful){
+                println("Update Sukses : ${call.message()}")
+            }else{
+                println("Update Error : ${call.errorBody()}")
+            }
         }
     }
 }
