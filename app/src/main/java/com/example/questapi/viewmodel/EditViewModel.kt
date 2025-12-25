@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.questapi.modeldata.DetailSiswa
 import com.example.questapi.modeldata.UIStateSiswa
 import com.example.questapi.repositori.RepositoryDataSiswa
 import kotlinx.coroutines.launch
@@ -18,5 +19,9 @@ RepositoryDataSiswa): ViewModel() {
             uiStateSiswa = repositoryDataSiswa.getSatuSiswa(idSiswa)
                 .toUiStateSiswa(true)
         }
+    }
+    fun updateUiState(detailSiswa: DetailSiswa) {
+        uiStateSiswa =
+            UIStateSiswa(detailSiswa = detailSiswa, isEntryValid = validasiInput(detailSiswa))
     }
 }
