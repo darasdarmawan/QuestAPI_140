@@ -38,6 +38,7 @@ import com.example.questapi.viewmodel.StatusUIDetail
 import com.example.questapi.viewmodel.provider.PenyediaViewModel
 import com.example.questapi.R
 import com.example.questapi.modeldata.DataSiswa
+import com.example.questapi.uicontroller.route.DestinasiDetail
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

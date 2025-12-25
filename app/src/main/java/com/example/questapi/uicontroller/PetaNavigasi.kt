@@ -8,8 +8,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.questapi.uicontroller.route.DestinasiDetail
+import com.example.questapi.uicontroller.route.DestinasiEdit
 import com.example.questapi.uicontroller.route.DestinasiEntry
 import com.example.questapi.uicontroller.route.DestinasiHome
+import com.example.questapi.view.DetailSiswaScreen
+import com.example.questapi.view.EditSiswaScreen
 import com.example.questapi.view.EntrySiswaScreen
 import com.example.questapi.view.HomeScreen
 
@@ -39,14 +43,14 @@ fun HostNavigasi(
             .itemIdArg){
             type = NavType.IntType })
         ){
-            DetailSiswaScreen(navigateToEditItem = {navController.navigate("${DestinasiEdit.Route}/$it")},
+            DetailSiswaScreen(navigateToEditItem = {navController.navigate("${DestinasiEdit.route}/$it")},
                 navigateBack = {navController.navigate(DestinasiHome.route) })
         }
         composable(DestinasiEdit.routeWithArgs, arguments = listOf(navArgument(DestinasiEdit.itemIdArg
         ){
             type = NavType.IntType })){
             EditSiswaScreen(navigateBack = {navController.navigate(DestinasiHome.route) },
-                onNavigateUp = {navController.navigateUp() })
+                onNavigateUp = {navController.navigateUp()})
         }
     }
 }
